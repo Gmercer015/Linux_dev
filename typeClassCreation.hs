@@ -27,4 +27,30 @@ data Person = Person { firstName :: String
                      , height :: Float
                      , phoneNumber :: String
                      , flavor :: String
-                     } deriving (Show)
+                     } deriving (Eq, Show)
+--also able to use algebraic data types to make enumerations
+data Day = Monday | Tuesday | Wednesday | Thursday  | Friday | Saturday | Sunday deriving (Eq, Ord, Show, Read, Bounded, Enum)
+
+--type is the same as typedef or renaming a value to convey information
+type PhoneBook = [(String,String)]
+
+phoneBook :: PhoneBook
+phoneBook =
+    [("better", "555-2983")
+    ,("bonnieBitch","452-999")
+    ]
+
+--paramterized type synonyms
+type AssocList k v = [(k,v)]
+
+--cool data type that can represent either value
+data Either a b = Left a | Right b deriving (Eq, Ord, Read, Show)
+
+--implementing our own list!
+infixr 5 :-:
+data List a = Empty | Cons a (List a) deriving (Show, Read, Eq, Ord)
+
+infix 5 .++ 
+(++) :: [a] -> [a] -> [a]
+[]     .++ ys = ys
+(x:xs) .++ ys = x : (xs .++ ys)
