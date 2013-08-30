@@ -48,9 +48,22 @@ data Either a b = Left a | Right b deriving (Eq, Ord, Read, Show)
 
 --implementing our own list!
 infixr 5 :-:
-data List a = Empty | Cons a (List a) deriving (Show, Read, Eq, Ord)
+data List a = Empty | a :-: (List a) deriving (Show, Read, Eq, Ord)
 
-infix 5 .++ 
-(++) :: [a] -> [a] -> [a]
-[]     .++ ys = ys
-(x:xs) .++ ys = x : (xs .++ ys)
+infixr 5 .++ 
+(.++) :: List a -> List a -> List a
+Empty .++ ys = ys
+(x :-: xs) .++ ys = x :-: (xs .++ ys)
+
+--working on type class creation, data we will write our own typeclasses for
+data TrafficLight = Red | Yellow | Green
+
+instance Eq TrafficLight where
+    Red == Red = True
+    Green == Green = True
+    Yellow == Yellow = True
+    _ == _ = False
+
+
+class Eq a where
+    (==)
